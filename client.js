@@ -16,27 +16,48 @@ function createGame() {
       fruit1: { x: 3, y: 1 },
     },
   };
+
   function movePlayer(command) {
     console.log(`moving ${command.playerId} to ${command.keyPressed}`);
 
+    const acceptedMoves = {
+      ArrowUp(player) {
+        console.log("moving player up");
+        if (player.y - 1 >= 0) {
+          player.y = player.y - 1;
+          return;
+        }
+      },
+      ArrowRight(player) {
+        console.log("moving player right");
+        if (player.x + 1 < gameScreen.width) {
+          player.x = player.x + 1;
+          return;
+        }
+      },
+      ArrowDown(player) {
+        console.log("moving player down");
+        if (player.y + 1 < gameScreen.height) {
+          player.y = player.y + 1;
+          return;
+        }
+      },
+      ArrowLeft(player) {
+        console.log("moving player left");
+
+        if (player.x - 1 >= 0) {
+          player.x = player.x - 1;
+          return;
+        }
+      },
+    };
+
     const keyPressed = command.keyPressed;
     const player = state.players[command.playerId];
+    const moveFunction = acceptedMoves[keyPressed];
 
-    if (keyPressed === "ArrowUp" && player.y - 1 >= 0) {
-      player.y = player.y - 1;
-      return;
-    }
-    if (keyPressed === "ArrowRight" && player.x + 1 < gameScreen.width) {
-      player.x = player.x + 1;
-      return;
-    }
-    if (keyPressed === "ArrowDown" && player.y + 1 < gameScreen.height) {
-      player.y = player.y + 1;
-      return;
-    }
-    if (keyPressed === "ArrowLeft" && player.x - 1 >= 0) {
-      player.x = player.x - 1;
-      return;
+    if (moveFunction) {
+      moveFunction(player);
     }
   }
 
