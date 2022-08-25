@@ -8,14 +8,26 @@ const currentPlayerId = "player1";
 
 function createGame() {
   const state = {
-    players: {
-      player1: { x: 1, y: 1 },
-      player2: { x: 9, y: 9 },
-    },
-    fruits: {
-      fruit1: { x: 3, y: 1 },
-    },
+    players: {},
+    fruits: {},
   };
+
+  function addPlayer(command) {
+    const playerId = command.playerId;
+    const playerX = command.playerX;
+    const playerY = command.playerY;
+
+    state.players[playerId] = {
+      x: playerX,
+      y: playerY,
+    };
+  }
+
+  function removePlayer(command) {
+    const playerId = command.playerId;
+
+    delete state.players[playerId];
+  }
 
   function movePlayer(command) {
     console.log(`moving ${command.playerId} to ${command.keyPressed}`);
@@ -64,6 +76,8 @@ function createGame() {
   return {
     movePlayer,
     state,
+    addPlayer,
+    removePlayer,
   };
 }
 
