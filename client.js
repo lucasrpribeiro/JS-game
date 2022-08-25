@@ -29,6 +29,23 @@ function createGame() {
     delete state.players[playerId];
   }
 
+  function addFruit(command) {
+    const fruitId = command.fruitId;
+    const fruitX = command.fruitX;
+    const fruitY = command.fruitY;
+
+    state.fruits[fruitId] = {
+      x: fruitX,
+      y: fruitY,
+    };
+  }
+
+  function removeFruit(command) {
+    const fruitId = command.fruitId;
+
+    delete state.fruits[fruitId];
+  }
+
   function movePlayer(command) {
     console.log(`moving ${command.playerId} to ${command.keyPressed}`);
 
@@ -68,20 +85,43 @@ function createGame() {
     const player = state.players[command.playerId];
     const moveFunction = acceptedMoves[keyPressed];
 
-    if (moveFunction) {
+    if (player && moveFunction) {
       moveFunction(player);
+      hasColision();
+    }
+  }
+
+  function hasColision() {
+    for (const playerId in state.players) {
+      const player = state.players[playerId];
+
+      for (const fruitId in state.fruits) {
+        const fruit = state.fruits[fruitId];
+
+        console.log("checking", player, fruit);
+
+        if (player.x === fruit.x && player.y === fruit.y) {
+          removeFruit({ fruitId });
+        }
+      }
     }
   }
 
   return {
     movePlayer,
-    state,
     addPlayer,
+    addFruit,
     removePlayer,
+    removeFruit,
+    state,
   };
 }
 
 const game = createGame();
+
+game.addPlayer({ playerId: "player1", playerX: 0, playerY: 0 });
+game.addFruit({ fruitId: "fruit1", fruitX: 5, fruitY: 6 });
+
 const keyboardListenner = createKeyboardListenner();
 keyboardListenner.subscribe(game.movePlayer);
 
