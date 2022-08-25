@@ -82,27 +82,26 @@ function createGame() {
     };
 
     const keyPressed = command.keyPressed;
-    const player = state.players[command.playerId];
+    const playerId = command.playerId;
+    const player = state.players[playerId];
     const moveFunction = acceptedMoves[keyPressed];
 
     if (player && moveFunction) {
       moveFunction(player);
-      hasColision();
+      hasColision(playerId);
     }
   }
 
-  function hasColision() {
-    for (const playerId in state.players) {
-      const player = state.players[playerId];
+  function hasColision(playerId) {
+    const player = state.players[playerId];
 
-      for (const fruitId in state.fruits) {
-        const fruit = state.fruits[fruitId];
+    for (const fruitId in state.fruits) {
+      const fruit = state.fruits[fruitId];
 
-        console.log("checking", player, fruit);
+      console.log("checking", player, fruit);
 
-        if (player.x === fruit.x && player.y === fruit.y) {
-          removeFruit({ fruitId });
-        }
+      if (player.x === fruit.x && player.y === fruit.y) {
+        removeFruit({ fruitId });
       }
     }
   }
