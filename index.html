@@ -20,6 +20,21 @@
         height: 400px;
       "
     ></canvas>
-    <script src="client.js"></script>
+    <script type="module">
+      import createGame from "./scripts/game.js";
+      import createKeyboardListenner from "./scripts/keyboard-listenner.js";
+      import renderScreen from "./scripts/render-screen.js";
+
+      const game = createGame();
+
+      const keyboardListenner = createKeyboardListenner(document);
+      keyboardListenner.subscribe(game.movePlayer);
+
+      const screen = document.getElementById("screen");
+      renderScreen(screen, game, requestAnimationFrame);
+
+      game.addPlayer({ playerId: "player1", playerX: 0, playerY: 0 }); // TEMP
+      game.addFruit({ fruitId: "fruit1", fruitX: 5, fruitY: 6 }); // TEMP
+    </script>
   </body>
 </html>
