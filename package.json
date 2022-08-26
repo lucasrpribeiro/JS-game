@@ -2,11 +2,15 @@
   "name": "multplayer-game-fd",
   "version": "1.0.0",
   "description": "A game that uses JavaScript, Node.js and Socket.io to train important programming concepts!",
-  "main": "client.js",
+  "type": "module",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "Lucas Ribeiro",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
 }
